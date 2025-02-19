@@ -1,5 +1,9 @@
+import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:fast_order/presentation/widgets/shared/custom_filled_buttom.dart';
 import 'package:fast_order/presentation/widgets/shared/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -43,36 +47,59 @@ class LoginScreen extends StatelessWidget {
 class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Text('Login'),
-          SizedBox(
-            height: 90,
-          ),
-          CustomTextFormField(
-            label: "Correo",
-            hint: "Ingresa tu correo",
-            icon: Icons.email,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) => value!.isEmpty ? "Este campo es obligatorio" : null,
-          ),
+    final sizeWidth = MediaQuery.of(context).size.width;
 
-          const SizedBox(height: 30),
-          CustomTextFormField(
-            label: 'Contraseña',
-            hint: 'Ingresa tu contraseña',
-            icon: Icons.lock,
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: true,
-            validator: (value) => value!.isEmpty ? "Este campo es obligatorio" : null,
+    return BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.isLoggedIn) {
+            context.go('/');
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Text('Login'),
+              SizedBox(
+                height: 90,
+              ),
+              CustomTextFormField(
+                label: "Correo",
+                hint: "Ingresa tu correo",
+                icon: Icons.email,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) =>
+                    value!.isEmpty ? "Este campo es obligatorio" : null,
+              ),
+              const SizedBox(height: 30),
+              CustomTextFormField(
+                label: 'Contraseña',
+                hint: 'Ingresa tu contraseña',
+                icon: Icons.lock,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                validator: (value) =>
+                    value!.isEmpty ? "Este campo es obligatorio" : null,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                width: sizeWidth * 0.8 * 0.8,
+                height: 50,
+                child: CustomFilledButtomn(
+                  text: 'Iniciar Sesión',
+                  onPressed: () {
+                    context.read<AuthBloc>().add(LoginEvent());
+                    context.go('/');
+                  },
+                ),
+              )
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

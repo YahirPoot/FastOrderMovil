@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const List<Color> colorList = [
   Color(0xFFF48C06),// #008000 verde oscuro
-  Color.fromARGB(255, 144, 238, 144) // #90EE90 verde claro
+  Color.fromARGB(255, 255, 94, 0) // #90EE90 verde claro
 ];
 
 class AppTheme {
