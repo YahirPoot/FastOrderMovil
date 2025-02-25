@@ -1,3 +1,4 @@
+import 'package:fast_order/config/themes/font/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -25,8 +26,6 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final textColor =
-        Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black54;
 
     return Container(
       decoration: BoxDecoration(
@@ -34,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
             spreadRadius: 2,
@@ -46,7 +46,7 @@ class CustomTextFormField extends StatelessWidget {
         validator: validator,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        style: TextStyle(fontSize: 16, color: textColor),
+        style: subtitleBlackF16,
         decoration: InputDecoration(
           filled: true,
           fillColor: colors.surface, // Mantiene coherencia con el tema
@@ -70,6 +70,7 @@ class CustomTextFormField extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           errorBorder: OutlineInputBorder(
+            // ignore: deprecated_member_use
             borderSide: BorderSide(color: Colors.red.withOpacity(0.7)),
             borderRadius: BorderRadius.circular(15),
           ),
