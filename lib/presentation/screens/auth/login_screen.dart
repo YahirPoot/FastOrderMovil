@@ -1,3 +1,4 @@
+import 'package:fast_order/config/themes/font/font_styles.dart';
 import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:fast_order/presentation/widgets/shared/custom_filled_buttom.dart';
 import 'package:fast_order/presentation/widgets/shared/custom_text_form_field.dart';
@@ -62,7 +63,7 @@ class _LoginForm extends StatelessWidget {
               SizedBox(
                 height: 50,
               ),
-              Text('Login'),
+              Text('Login', style: titleColorApppF24,),
               SizedBox(
                 height: 90,
               ),
@@ -92,6 +93,7 @@ class _LoginForm extends StatelessWidget {
                 height: 50,
                 child: CustomFilledButtomn(
                   text: 'Iniciar Sesión',
+                  buttonColor: Color(0xFFF48C06),
                   onPressed: () {
                     context.read<AuthBloc>().add(LoginEvent());
                     context.go('/');
