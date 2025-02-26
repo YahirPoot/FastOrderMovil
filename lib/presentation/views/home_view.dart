@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
                       'Guisos del dia',
                       style: titleBlackF24,
                     ),
-                    Text('Fecha', style: descriptionOrangeF14),
+                    Text('Fecha', style: textOrangeF20),
                     Text(
                       'Raciones Disponibles',
                       style: descriptionBlackF16,

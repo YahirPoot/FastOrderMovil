@@ -20,3 +20,5 @@ const TextStyle descriptionBlackF16 =
 
 const TextStyle descriptionOrangeF14 =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFF48C06));
+
+const TextStyle textOrangeF20 = TextStyle(fontSize: 20, color: Color(0xFFF48C06));
