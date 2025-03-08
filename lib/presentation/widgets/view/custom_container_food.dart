@@ -1,4 +1,4 @@
-import 'package:fast_order/config/themes/font/font_styles.dart';
+import 'package:fast_order/config/index.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainerFood extends StatelessWidget {

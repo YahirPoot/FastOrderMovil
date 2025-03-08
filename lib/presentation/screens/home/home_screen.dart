@@ -1,8 +1,5 @@
-import 'package:fast_order/presentation/bloc/home_navigation_bloc/home_navigation_bloc.dart';
-// import 'package:fast_order/presentation/screens/auth/login_screen.dart';
-import 'package:fast_order/presentation/views/account_view.dart';
-import 'package:fast_order/presentation/views/home_view.dart';
-import 'package:fast_order/presentation/views/order_view.dart';
+import 'package:fast_order/presentation/bloc/index.dart';
+import 'package:fast_order/presentation/views/index.dart';
 import 'package:fast_order/presentation/widgets/home/custom_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
