@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:fast_order/config/themes/font/font_styles.dart';
-import 'package:fast_order/data/repositories/dish_repository_impl.dart';
+import 'package:fast_order/config/themes/index.dart';
 import 'package:fast_order/domain/entities/index.dart';
+import 'package:fast_order/presentation/widgets/index.dart';
+import 'package:fast_order/data/repositories/dish_repository_impl.dart';
 import 'package:fast_order/domain/repositories/dish_repository.dart';
-import 'package:fast_order/presentation/widgets/view/custom_container_food.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
