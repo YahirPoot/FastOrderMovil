@@ -1,4 +1,3 @@
-
 import 'package:fast_order/config/router/app_router.dart';
 import 'package:fast_order/config/themes/theme_app.dart';
 import 'package:flutter/material.dart';
