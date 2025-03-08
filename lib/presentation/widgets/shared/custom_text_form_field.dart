@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final IconData? icon;
+  final double? width;
 
   const CustomTextFormField({
     super.key,
@@ -20,14 +21,15 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.onChanged,
     this.validator,
-    this.icon,
+    this.icon, 
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
     return Container(
+      width: width,
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(15),
