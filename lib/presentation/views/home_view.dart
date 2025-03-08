@@ -1,9 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:fast_order/config/themes/font/font_styles.dart';
+import 'package:fast_order/data/repositories/dish_repository_impl.dart';
+import 'package:fast_order/domain/entities/index.dart';
+import 'package:fast_order/domain/repositories/dish_repository.dart';
 import 'package:fast_order/presentation/widgets/view/custom_container_food.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  final DishRepository dishRepository =
+      DishRepositoryImpl(dioClient: Dio());
+  HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +77,37 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            children: List.generate(
-                4,
-                (index) => const CustomContainerFood(
-                      text: 'Titulo del guisado',
-                      imageUrl:
-                          'https://www.cocinadelirante.com/sites/default/files/images/2024/05/como-hacer-pescado-empanizado-crujiente-al-horno.jpg',
-                    )),
-          ),
+          FutureBuilder<List<Dish>>(
+            future: dishRepository.getDishes(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Text('No hay guisos disponibles'),
+                );
+              } else {
+                final dishes = snapshot.data!;
+                return GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  children: dishes.map((dish) {
+                    return CustomContainerFood(
+                      text: dish.name,
+                      imageUrl: dish.imageUrl ?? '',
+                    );
+                  }).toList(),
+                );
+              }
+            },
+          )
         ],
       ),
     );
