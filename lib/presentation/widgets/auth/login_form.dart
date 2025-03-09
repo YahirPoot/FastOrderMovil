@@ -31,6 +31,8 @@ class LoginForm extends StatelessWidget {
               hint: "Ingresa tu correo",
               icon: Icons.email,
               keyboardType: TextInputType.emailAddress,
+              color: Color(0xFFF48C06),
+              textStyle: descriptionOrangeF14,
               validator: (value) =>
                   value!.isEmpty ? "Este campo es obligatorio" : null,
             ),
@@ -41,7 +43,9 @@ class LoginForm extends StatelessWidget {
               hint: 'Ingresa tu contraseña',
               icon: Icons.lock,
               keyboardType: TextInputType.visiblePassword,
+              color: Color(0xFFF48C06),
               obscureText: true,
+              textStyle: descriptionOrangeF14,
               validator: (value) =>
                   value!.isEmpty ? "Este campo es obligatorio" : null,
             ),
