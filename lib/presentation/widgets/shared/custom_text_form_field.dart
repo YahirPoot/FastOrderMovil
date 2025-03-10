@@ -15,6 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? color;
   final Color? fillColor;
   final TextStyle? textStyle;
+  final TextEditingController? controller;
   const CustomTextFormField({
     super.key,
     this.label,
@@ -27,7 +28,10 @@ class CustomTextFormField extends StatelessWidget {
     this.icon, 
     this.width,
     this.decoration,
-    this.color, this.fillColor, this.textStyle,
+    this.color, 
+    this.fillColor, 
+    this.textStyle,
+    this.controller,
   });
 
   @override
@@ -48,6 +52,7 @@ class CustomTextFormField extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: controller,
         onChanged: onChanged,
         validator: validator,
         obscureText: obscureText,
