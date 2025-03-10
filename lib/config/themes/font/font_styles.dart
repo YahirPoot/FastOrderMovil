@@ -15,10 +15,15 @@ const TextStyle titleWhiteF24 =
 const TextStyle subtitleBlackF16 =
     TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black);
 
+const TextStyle subtitleBlackF14 = 
+    TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
+
 const TextStyle descriptionBlackF16 =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
 
 const TextStyle descriptionOrangeF14 =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFF48C06));
 
-const TextStyle textOrangeF20 = TextStyle(fontSize: 20, color: Color(0xFFF48C06));
+const TextStyle titleOrangeF20 = TextStyle(fontSize: 20, color: Color(0xFFF48C06));
+
+
