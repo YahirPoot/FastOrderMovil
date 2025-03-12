@@ -37,7 +37,9 @@ class LoginForm extends StatelessWidget {
                 color: const Color(0xFFF48C06),
                 textStyle: descriptionOrangeF14,
                 onChanged: (value) => registerBloc.add(UpdateEmail(value)),
-                errorMessage: email.errorMessage,
+                errorMessage: registerBloc.state.isFormPosted
+                  ? email.errorMessage
+                  : null,
               ),
               const SizedBox(height: 35),
               CustomTextFormField(
@@ -50,7 +52,9 @@ class LoginForm extends StatelessWidget {
                 obscureText: true,
                 textStyle: descriptionOrangeF14,
                 onChanged: (value) => registerBloc.add(UpdatePassword(value)),
-                errorMessage: password.errorMessage,
+                errorMessage: registerBloc.state.isFormPosted
+                  ? password.errorMessage
+                  : null,
               ),
               const Spacer(flex: 1),
               SizedBox(

@@ -12,38 +12,40 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
     void touchEveryField(Emitter<RegisterFormState> emit) {
       final email = Email.dirty(value: state.email.value);
       final password = Password.dirty(value: state.password.value);
-      emit(
-        state.copyWith(
-          formStatus: FormStatus.posting,
-          email: email,
-          password: password,
-          isValid: Formz.validate([email, password]), //cada vez que escriba o llene el formulario se validará.
-        ),
-      );
+        
+      emit(state.copyWith(
+        email: email,
+        password: password,
+        isFormPosted: true,
+        isValid: Formz.validate([email, password]),
+      ));
+
+      print('state: ${{
+        "isFormPosted": state.isFormPosted,
+        "isValid": state.isValid,
+        "email": state.email,
+        "password": state.password
+      }}');
     }
 
     on<SubmitForm>((event, emit) {
-      touchEveryField(emit);
-      print(state);
+        touchEveryField(emit);
     });
 
-    // Actualiza el email
     on<UpdateEmail>((event, emit) {
-      final email = Email.dirty(value: event.email); //cada que vez que ensucié el cambio, valida que sea correcto el input.
+      final newEmail = Email.dirty(value: event.email);
       emit(state.copyWith(
-        isValid: Formz.validate([email, state.password]), //En este caso, valida estos 2 inputs para saber si el formulario en general esta valido.
-        email: email,
+        email: newEmail,
+        isValid: Formz.validate([newEmail, state.password]),
       ));
     });
 
-    // Actualiza la contraseña
     on<UpdatePassword>((event, emit) {
-      final password = Password.dirty(value: event.password);
+      final newPassword = Password.dirty(value: event.password);
       emit(state.copyWith(
-        isValid: Formz.validate([state.email, password]),
-        password: password,
+        password: newPassword,
+        isValid: Formz.validate([state.email, newPassword]),
       ));
     });
-    
   }
 }

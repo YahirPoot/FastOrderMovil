@@ -1,27 +1,26 @@
 part of 'register_bloc.dart';
 
-enum FormStatus { invalid, valid, validating, posting }
 
 class RegisterFormState extends Equatable {
-  final FormStatus formStatus;
+  final bool isFormPosted;
   final bool isValid;
   final Email email;
   final Password password;
   const RegisterFormState({
-    this.formStatus = FormStatus.invalid, //Este es el estado en el que se encuentra el formulario.
+    this.isFormPosted = false, //Este es el estado en el que se encuentra el formulario.
     this.isValid = false,// no son validos hasta que las personas lo llenen.
     this.email = const Email.pure(),
     this.password = const Password.pure(),
   });
 
   RegisterFormState copyWith({
-    FormStatus? formStatus,
+    bool? isFormPosted,
     bool? isValid,
     Email? email,
     Password? password,
   }) {
     return RegisterFormState(
-      formStatus: formStatus ?? this.formStatus,
+      isFormPosted: isFormPosted ?? this.isFormPosted,
       isValid: isValid ?? this.isValid,
       email: email ?? this.email,
       password: password ?? this.password,
@@ -29,5 +28,5 @@ class RegisterFormState extends Equatable {
   }
   
   @override
-  List<Object> get props => [isValid, email, password];
+  List<Object> get props => [isValid, email, password, isFormPosted];
 }
