@@ -11,7 +11,7 @@ final appRouter = GoRouter(
       // que tengo que hacer para enviar el redirect? r: cambiar el estado de isLoggedIn
       //por que se activa el redirect cada vez que utilizo el go_router?
       final authState = context.read<AuthBloc>().state;
-      final isLoggedIn = authState.isLoggedIn;
+      final isLoggedIn = authState.authStatus == AuthStatus.authenticated;
       final isLogginIn = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register';
       if (!isLoggedIn && !isLogginIn) {
