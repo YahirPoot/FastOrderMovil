@@ -1,15 +1,28 @@
 part of 'auth_bloc.dart';
 
-class AuthState extends Equatable {
-  final bool isLoggedIn;
-  const AuthState({this.isLoggedIn = false});
+enum AuthStatus { checking, authenticated, notAuthenticated }
 
-  AuthState copyWith({bool? isLoggedIn}) {
-    return AuthState(isLoggedIn: isLoggedIn ?? this.isLoggedIn);
-  }
+class AuthState extends Equatable {
+  final AuthStatus? authStatus;
+  final User? user;
+  final String? errorMessage;
+  const AuthState({
+    this.authStatus = AuthStatus.notAuthenticated, 
+    this.errorMessage = '',
+    this.user,
+    });
+
+    AuthState copyWith({
+    AuthStatus? authStatus,
+    User? user,
+    String? errorMessage,
+  }) => AuthState(
+    authStatus: authStatus ?? this.authStatus,
+    user: user ?? this.user,
+    errorMessage: errorMessage ?? this.errorMessage
+  );
   
   @override
-  List<Object> get props => [isLoggedIn];
+  List<Object?> get props => [authStatus, user, errorMessage];
 }
 
-final class AuthInitial extends AuthState {}

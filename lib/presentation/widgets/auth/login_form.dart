@@ -8,6 +8,13 @@ import 'package:go_router/go_router.dart';
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
 
+  void showSnackbar( BuildContext context, String message ) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message))
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeWidth = MediaQuery.of(context).size.width;
@@ -16,8 +23,12 @@ class LoginForm extends StatelessWidget {
     final password = registerBloc.state.password;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) { //Escucha los cambios de estado del bloc
-        if (state.isLoggedIn) {
+        if (state.authStatus == AuthStatus.authenticated) {
           context.go('/');
+        }
+
+        if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
+          showSnackbar(context, state.errorMessage!);
         }
       },
       child: Padding(

@@ -1,13 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_order/infrastructure/inputs/index.dart';
+import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:formz/formz.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
-  RegisterBloc() : super(RegisterFormState()) {
+  final AuthBloc authBloc;
+
+  RegisterBloc({ required this.authBloc }) : super(RegisterFormState()) {
 
     void touchEveryField(Emitter<RegisterFormState> emit) {
       final email = Email.dirty(value: state.email.value);
@@ -20,16 +23,25 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
         isValid: Formz.validate([email, password]),
       ));
 
-      print('state: ${{
-        "isFormPosted": state.isFormPosted,
-        "isValid": state.isValid,
-        "email": state.email,
-        "password": state.password
-      }}');
+      // print('state: ${{
+      //   "isFormPosted": state.isFormPosted,
+      //   "isValid": state.isValid,
+      //   "email": state.email,
+      //   "password": state.password
+      // }}');
     }
 
     on<SubmitForm>((event, emit) {
         touchEveryField(emit);
+
+        if (!state.isValid) return;
+
+        authBloc.add(
+          LoginEvent(
+            state.email.value, 
+            state.password.value
+          ));
+          
     });
 
     on<UpdateEmail>((event, emit) {
