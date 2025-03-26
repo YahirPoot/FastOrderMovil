@@ -1,6 +1,7 @@
 import 'package:fast_order/domain/entities/index.dart';
+import 'package:fast_order/infrastructure/errors/auth_errors.dart';
 
-// const List<String> validRoles = ['ADMIN', 'OPERATOR', 'DELIVERY', 'SUPER_ADMIN'];
+const List<String> validRoles = ['ADMIN', 'OPERATOR', 'DELIVERY', 'SUPER_ADMIN'];
 
 class User {
   final int id;
@@ -10,7 +11,7 @@ class User {
   final String refreshToken;
   final String role;
   final bool emailVerified;
-  final int? kitchenId;
+  final int kitchenId;
 
   User({
     required this.id,
@@ -19,22 +20,36 @@ class User {
     required this.accessToken,
     required this.refreshToken,
     required this.role,
+    required this.kitchenId,
     this.emailVerified = false,
-    this.kitchenId,
   });
 
   static User mapJsonToUserEntity(Map<String, dynamic> json) {
     final user = json['user'];
+    final id = user['userId'];
+    final fullName = user['name'];
+    final email = user['email'];
+    final emailVerified = user['emailVerified'];
     final tokenPair = TokenPair.mapJsonToTokenPair(json);
+    final role = user['rol'];
+    final kitchenId = user['kitchenId'];
+
+    if(id is! int) throw MappingError('Invalid or missing "userId"');
+    if(fullName is! String) throw MappingError('Invalid or missing "name"');
+    if(email is! String) throw MappingError('Invalid or missing "email"');
+    if(emailVerified is! bool) throw MappingError('Invalid or missing "emailVerified"');
+    if(role is! String) throw MappingError('Invalid or missing "rol"');
+    if(kitchenId is! int) throw MappingError('Invalid or missing "kitchenId"');
+
     return User(
-      id:  user['userId'] as int,
-      fullName: user['name'] as String,
-      email: user['email'] as String,
-      emailVerified: user['emailVerified'] as bool,
+      id: id,
+      fullName: fullName,
+      email: email,
+      emailVerified: emailVerified,
       accessToken: tokenPair.accessToken,
       refreshToken: tokenPair.refreshToken,
-      role: user['rol'] as String,
-      kitchenId: user['kitchenId'] as int?,
+      role: role,
+      kitchenId: kitchenId,
     );
 
   }
