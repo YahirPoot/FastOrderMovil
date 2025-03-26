@@ -4,7 +4,7 @@ import 'package:fast_order/providers.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  await Enviroment.initEnviroment();
+  await Environment.initEnviroment();
   runApp(
     AppBlocProviders(main: MainApp()),
   );
