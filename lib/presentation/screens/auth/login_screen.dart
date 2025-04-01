@@ -1,5 +1,5 @@
 import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:fast_order/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:fast_order/presentation/bloc/register_bloc/register_form_bloc.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF48C06),
       body: BlocProvider(
-        create: (context) => RegisterBloc( authBloc: context.read<AuthBloc>() ),
+        create: (context) => RegisterFormBloc( authBloc: context.read<AuthBloc>() ),
         child: SingleChildScrollView(
           controller: scrollController,
           physics: const ClampingScrollPhysics(),

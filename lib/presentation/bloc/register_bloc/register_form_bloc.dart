@@ -7,10 +7,10 @@ import 'package:formz/formz.dart';
 part 'register_event.dart';
 part 'register_state.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
+class RegisterFormBloc extends Bloc<RegisterEvent, RegisterFormState> {
   final AuthBloc authBloc;
 
-  RegisterBloc({ required this.authBloc }) : super(RegisterFormState()) {
+  RegisterFormBloc({ required this.authBloc }) : super(RegisterFormState()) {
 
     void touchEveryField(Emitter<RegisterFormState> emit) {
       final email = Email.dirty(value: state.email.value);

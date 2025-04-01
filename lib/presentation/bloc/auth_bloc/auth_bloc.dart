@@ -11,27 +11,50 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
+  final KeyValueStorageService _keyValueStorageService;
 
-  AuthBloc({AuthRepository? authRepository})
+  AuthBloc({
+    AuthRepository? authRepository,
+    KeyValueStorageService? keyValueStorageService,
+    })
     : _authRepository = authRepository ?? AuthRepositoryImpl(),
+      _keyValueStorageService = keyValueStorageService ?? KeyValueStorageServiceImpl(),
       super(AuthState()) {
 
-    void setLoggedUser({ required user, required Emitter<AuthState> emit}) {
-      //TODO: SAVE TOKEN IN LOCAL STORAGE
+    void setLoggedUser({ required user, required Emitter<AuthState> emit}) async {
+      await _keyValueStorageService.setKeyValue('accessToken', user.accessToken);
+      await _keyValueStorageService.setKeyValue('refreshToken', user.refreshToken);
       emit(state.copyWith(
         authStatus: AuthStatus.authenticated,
         user: user,
       ));
-      print(state);
     }
 
-    void logout({required String? errorMessage, required Emitter<AuthState> emit}) {
-      //TODO: REMOVE TOKEN FROM LOCAL STORAGE
+    void logout({String? errorMessage, required Emitter<AuthState> emit}) async {
+      await _keyValueStorageService.removeKey('accessToken');
+      await _keyValueStorageService.removeKey('refreshToken');
       emit(state.copyWith(
         authStatus: AuthStatus.notAuthenticated,
         user: null,
         errorMessage: errorMessage,
       ));
+    }
+
+    void checkAuthStatus({required Emitter<AuthState> emit}) async {
+      final accessToken = await  _keyValueStorageService.getValue('accessToken');
+      final refreshToken = await _keyValueStorageService.getValue('refreshToken');
+
+      if (accessToken == null || refreshToken == null) return logout(emit: emit,);
+
+      try {
+
+        //TODO: LLAMAR A UN CHECK AUTH STATUS DE LA API???? no se que hacer.... 
+        //setLoggedUser(user: user, emit: emit);
+
+      } catch (e) {
+        
+      }
+
     }
     
     on<LoginEvent>((event, emit) async {
@@ -69,8 +92,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
     });
-
-    //TODO: CheckAuthStatus
 
   }
 }

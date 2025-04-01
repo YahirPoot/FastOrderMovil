@@ -7,7 +7,7 @@ class AuthState extends Equatable {
   final User? user;
   final String? errorMessage;
   const AuthState({
-    this.authStatus = AuthStatus.notAuthenticated, 
+    this.authStatus = AuthStatus.checking, 
     this.errorMessage = '',
     this.user,
     });
