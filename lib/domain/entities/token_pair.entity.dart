@@ -11,14 +11,14 @@ class TokenPair {
   });
 
   static TokenPair mapJsonToTokenPair(Map<String, dynamic> json) {
-    final accessToken = json['acessToken']; //FIXME: Error de escritura cambiar en la api y en el cliente
+    final accessToken = json['accessToken'];
     final refreshToken = json['refreshToken'];
 
     if(accessToken is! String ) throw MappingError('Invalid or missing "accessToken"');
     if (refreshToken is! String) throw MappingError('Invalid or missing "refreshToken"');
 
     return TokenPair(
-      accessToken: json['acessToken'] as String, //FIXME: Error de escritura cambiar en la api y en el cliente
+      accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
     );
   }
