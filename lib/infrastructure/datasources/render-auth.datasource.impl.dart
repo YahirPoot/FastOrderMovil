@@ -53,10 +53,22 @@ class RenderAuthDatasourceImpl implements AuthDatasource {
   }
   
   @override
-  Future<User> checkAuthStatus(String accessToken) async {
+  Future<User> checkAuthStatus(String accessToken, String refreshtoken) async {
     try{
-      final response = await dio.post('/auth/check-auth-status');
-      final User user = User.mapJsonToUserEntity(response.data);
+      final response = await dio.post(
+        '/auth/check-auth-status',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          }
+        )
+      );
+      final Map<String, dynamic> dataWithTokens = {
+        ...response.data,
+        'accessToken': accessToken,
+        'refreshToken': refreshtoken,
+      };
+      final User user = User.mapJsonToUserEntity(dataWithTokens);
       return user;
     } on DioException catch (e) {
       if( e.response?.statusCode == 401 ) throw InvalidToken();

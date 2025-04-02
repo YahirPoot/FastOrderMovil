@@ -64,9 +64,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       try {
-        final User user = await _authRepository.checkAuthStatus(accessToken);
+        final User user = await _authRepository.checkAuthStatus(accessToken, refreshToken);
         setLoggedUser(user: user, emit: emit);
-      } on InvalidToken { //* caso en el que tengo ambos tokens pero el accessToken es inválido
+      } on InvalidToken { //* tengo ambos tokens pero el accessToken es inválido
         final refreshed = await refreshTokens(emit, refreshToken);
         if (refreshed) add(CheckAuthStatus());
       } catch (e) {
