@@ -11,7 +11,7 @@ class AppBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeNavigationBloc()),
-        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AuthBloc()..add(CheckAuthStatus())),
       ],
       child: main,
     );

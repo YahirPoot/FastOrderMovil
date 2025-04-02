@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -40,30 +39,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
     }
 
-    void checkAuthStatus({required Emitter<AuthState> emit}) async {
-      final accessToken = await  _keyValueStorageService.getValue('accessToken');
-      final refreshToken = await _keyValueStorageService.getValue('refreshToken');
-
-      if (accessToken == null || refreshToken == null) return logout(emit: emit,);
-
+    Future<bool> refreshTokens(Emitter<AuthState> emit, String refreshToken) async {
       try {
-
-        //TODO: LLAMAR A UN CHECK AUTH STATUS DE LA API???? no se que hacer.... 
-        //setLoggedUser(user: user, emit: emit);
-
+        final TokenPair newTokens = await _authRepository.refreshToken(refreshToken);
+        // Guardar los nuevos tokens en el almacenamiento
+        await _keyValueStorageService.setKeyValue('accessToken', newTokens.accessToken);
+        await _keyValueStorageService.setKeyValue('refreshToken', newTokens.refreshToken);
+        return true; // Indica que el refresh token fue exitoso
+      } on InvalidToken{
+        logout(emit: emit, errorMessage: 'Session expired. Please log in again.');
+        return false;
       } catch (e) {
-        
+        logout(emit: emit, errorMessage: 'Error not controlled');
+        return false;
+      }
+    }
+
+    on<CheckAuthStatus>((event, emit) async { //* Check if the user is authenticated every time the app starts
+      final accessToken = await _keyValueStorageService.getValue<String>('accessToken');
+      final refreshToken = await _keyValueStorageService.getValue<String>('refreshToken');
+
+      if (accessToken == null || refreshToken == null) {
+        return logout(emit: emit);
       }
 
-    }
-    
-    on<LoginEvent>((event, emit) async {
-
       try {
+        final User user = await _authRepository.checkAuthStatus(accessToken);
+        setLoggedUser(user: user, emit: emit);
+      } on InvalidToken { //* caso en el que tengo ambos tokens pero el accessToken es inválido
+        final refreshed = await refreshTokens(emit, refreshToken);
+        if (refreshed) add(CheckAuthStatus());
+      } catch (e) {
+        logout(emit: emit, errorMessage: 'Error not controlled');
+      }
+    });
 
+    on<LoginEvent>((event, emit) async {
+      try {
         final User user = await _authRepository.login(event.email, event.password);
         setLoggedUser(user: user, emit: emit);
-
       } on WrongCredentials catch (e) {
         logout(
           errorMessage: e.message, 
@@ -90,7 +104,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorMessage: 'Erorr not controlled', 
         );
       }
-
     });
 
   }

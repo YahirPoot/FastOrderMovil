@@ -7,7 +7,14 @@ class WrongCredentials implements Exception {
     this.statusCode
     });
 }
-class InvalidToken implements Exception {}
+class InvalidToken implements Exception {
+  final String? message;
+  final int? statusCode;
+  InvalidToken({
+    this.message, 
+    this.statusCode
+    });
+}
 class ConnectionTimeout implements Exception {}
 class CustomError implements Exception {
   final String message;
