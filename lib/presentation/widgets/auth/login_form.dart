@@ -18,7 +18,7 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sizeWidth = MediaQuery.of(context).size.width;
-    final registerBloc = context.watch<RegisterBloc>();
+    final registerBloc = context.watch<RegisterFormBloc>();
     final email = registerBloc.state.email;
     final password = registerBloc.state.password;
     return BlocListener<AuthBloc, AuthState>(

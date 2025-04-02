@@ -1,4 +1,4 @@
-part of 'register_bloc.dart';
+part of 'register_form_bloc.dart';
 
 
 class RegisterFormState extends Equatable {
