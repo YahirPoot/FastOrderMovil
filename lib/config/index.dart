@@ -1,3 +1,3 @@
-export './router/app_router.dart';
+export './router/index.dart';
 export './themes/index.dart';
 export './constants/enviroment.dart';
