@@ -23,8 +23,9 @@ class LoginForm extends StatelessWidget {
     final password = registerBloc.state.password;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) { //Escucha los cambios de estado del bloc
-        if (state.authStatus == AuthStatus.authenticated) {
-          context.go('/');
+        // Cerrar el loading cuando el estado cambie
+        if (state.authStatus != AuthStatus.checking) {
+          Navigator.of(context, rootNavigator: true).pop(); // Cierra el diálogo
         }
 
         if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
@@ -75,7 +76,18 @@ class LoginForm extends StatelessWidget {
                   text: 'Iniciar Sesión',
                   buttonColor: const Color(0xFFF48C06),
                   onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false, // Evita que se cierre al hacer clic fuera
+                    builder: (context) => const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFFF48C06),
+                      ),
+                    ),
+                  );
+
                     registerBloc.add(SubmitForm());
+
                   },
                 ),
               ),
