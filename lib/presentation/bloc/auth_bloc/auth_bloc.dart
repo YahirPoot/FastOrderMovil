@@ -20,16 +20,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _keyValueStorageService = keyValueStorageService ?? KeyValueStorageServiceImpl(),
       super(AuthState()) {
 
-    void setLoggedUser({ required user, required Emitter<AuthState> emit}) async {
+    Future<void> setLoggedUser({ required User user, required Emitter<AuthState> emit}) async {
       await _keyValueStorageService.setKeyValue('accessToken', user.accessToken);
       await _keyValueStorageService.setKeyValue('refreshToken', user.refreshToken);
       emit(state.copyWith(
         authStatus: AuthStatus.authenticated,
         user: user,
       ));
+      print('AuthBloc: state: ${ state.authStatus}');
     }
 
-    void logout({String? errorMessage, required Emitter<AuthState> emit}) async {
+    Future<void> logout({String? errorMessage, required Emitter<AuthState> emit}) async {
       await _keyValueStorageService.removeKey('accessToken');
       await _keyValueStorageService.removeKey('refreshToken');
       emit(state.copyWith(
@@ -37,6 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user: null,
         errorMessage: errorMessage,
       ));
+      print('AuthBloc: state: ${ state.authStatus}');
     }
 
     Future<bool> refreshTokens(Emitter<AuthState> emit, String refreshToken) async {
@@ -56,50 +58,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     on<CheckAuthStatus>((event, emit) async { //* Check if the user is authenticated every time the app starts
+      print('AuthBloc: state: ${state.authStatus}');
       final accessToken = await _keyValueStorageService.getValue<String>('accessToken');
       final refreshToken = await _keyValueStorageService.getValue<String>('refreshToken');
 
       if (accessToken == null || refreshToken == null) {
-        return logout(emit: emit);
+        return await logout(emit: emit);
       }
 
       try {
         final User user = await _authRepository.checkAuthStatus(accessToken, refreshToken);
-        setLoggedUser(user: user, emit: emit);
+        await setLoggedUser(user: user, emit: emit);
       } on InvalidToken { //* tengo ambos tokens pero el accessToken es inválido
         final refreshed = await refreshTokens(emit, refreshToken);
         if (refreshed) add(CheckAuthStatus());
       } catch (e) {
-        logout(emit: emit, errorMessage: 'Error not controlled');
+        await logout(emit: emit, errorMessage: 'Error not controlled');
       }
     });
 
     on<LoginEvent>((event, emit) async {
       try {
         final User user = await _authRepository.login(event.email, event.password);
-        setLoggedUser(user: user, emit: emit);
+        await setLoggedUser(user: user, emit: emit);
       } on WrongCredentials catch (e) {
-        logout(
+        await logout(
           errorMessage: e.message, 
           emit: emit
           );
       } on CustomError catch (e) {
-        logout(
+        await logout(
           errorMessage: e.message, 
           emit: emit
           );
       } on MappingError catch (e) {
-        logout(
+        await logout(
           errorMessage: e.message, 
           emit: emit
           );
       } on ConnectionTimeout {
-        logout(
+        await logout(
           errorMessage: 'Timeout de conexión', 
           emit: emit
           );
       } catch (e) {
-        logout(
+        await logout(
           emit: emit,
           errorMessage: 'Erorr not controlled', 
         );
