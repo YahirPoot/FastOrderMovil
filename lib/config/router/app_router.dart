@@ -7,32 +7,26 @@ import 'package:fast_order/presentation/views/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 GoRouter createAppRouter(BuildContext context) {
   final goRouterNotifier = GoRouterNotifier(context.read<AuthBloc>()); // Instancia del notifier
+
   return GoRouter(
     refreshListenable: goRouterNotifier, // Se pasa el notifier al router
     redirect: (context, state) {
-      // Controlar el redirect por medio del refreshListenable
       final authState = context.read<AuthBloc>().state;
       print('GoRouter redirect: Current authStatus is ${authState.authStatus}');
 
       final isAuthenticated = authState.authStatus == AuthStatus.authenticated;
       final isChecking = authState.authStatus == AuthStatus.checking;
-      final isOnAuthPages =
-          state.matchedLocation == '/login' || state.matchedLocation == '/register';
+      final isOnAuthPages = _isOnAuthPages(state.matchedLocation);
 
-      // Si está verificando el estado de autenticación, no redirigir aún.
-      if (isChecking) return null;
+      // Validaciones del redirect
+      if (isChecking) return null; // No redirigir mientras se verifica el estado de autenticación
+      if (!isAuthenticated && !isOnAuthPages) return '/login'; // Redirigir al login si no está autenticado
+      if (isAuthenticated && isOnAuthPages) return '/'; // Redirigir al home si está autenticado y en páginas de login
+      if (isAuthenticated && state.matchedLocation == '/loading') return '/'; // Redirigir al home desde la pantalla de carga
 
-      // Si no está autenticado y no está en las páginas de autenticación, redirigir a la página de inicio de sesión.
-      if (!isAuthenticated && !isOnAuthPages) return '/login';
-
-      // Si está autenticado y está en las páginas de autenticación, redirigir a la página principal.
-      if (isAuthenticated && isOnAuthPages) return '/';
-
-      // null significa que no hay redireccionamiento - se mantiene la ruta actual
-      return null;
+      return null; // Mantener la ruta actual si no se cumplen las condiciones
     },
     initialLocation: '/loading',
     routes: [
@@ -77,4 +71,9 @@ GoRouter createAppRouter(BuildContext context) {
       ),
     ],
   );
+}
+
+// Función auxiliar para verificar si la ubicación actual está en las páginas de autenticación
+bool _isOnAuthPages(String? matchedLocation) {
+  return matchedLocation == '/login' || matchedLocation == '/register';
 }
