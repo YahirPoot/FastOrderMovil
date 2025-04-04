@@ -19,8 +19,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
   
   @override
-  Future<User> checkAuthStatus(String accessToken) {
-    return _datasource.checkAuthStatus(accessToken);
+  Future<User> checkAuthStatus(String accessToken, String refreshtoken) {
+    return _datasource.checkAuthStatus(accessToken, refreshtoken);
   }
   
 }
