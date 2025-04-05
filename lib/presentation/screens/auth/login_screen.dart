@@ -9,45 +9,38 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
-    final viewInsets = MediaQuery.of(context).viewInsets;
     final size = MediaQuery.of(context).size;
 
-    _handleKeyboardVisibility(viewInsets, scrollController);
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF48C06),
+      backgroundColor: Colors.white,
       body: BlocProvider(
-        create: (context) => RegisterFormBloc( authBloc: context.read<AuthBloc>() ),
-        child: SingleChildScrollView(
-          controller: scrollController,
-          physics: const ClampingScrollPhysics(),
-          child: SizedBox(
-            height: size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                LoginIcon(size: size),
-                FormContainer(loginForm: LoginForm()),
-              ],
+        create: (context) => RegisterFormBloc(authBloc: context.read<AuthBloc>()),
+        child: Stack(
+          children: [
+            // Cabecera naranja Fija
+            Container(
+              height: size.height * 0.5,
+              width: double.infinity,
+              color: const Color(0xFFF48C06), //TODO: MANAGE COLORS
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  LoginIcon(size: size)
+                ],
+              ),
             ),
-          ),
+
+            // Cuerpo scrollable con formulario, fondo blanco
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FormContainer(
+                height: size.height * 0.68,
+                loginForm: LoginForm()
+                )
+            ),
+          ],
         ),
       ),
     );
   }
-
-  void _handleKeyboardVisibility(EdgeInsets viewInsets, ScrollController scrollController) {
-    if (viewInsets.bottom > 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.animateTo(
-          200,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOut,
-        );
-      });
-    }
-  }
-
 }

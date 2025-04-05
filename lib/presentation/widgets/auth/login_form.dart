@@ -3,7 +3,6 @@ import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -37,9 +36,9 @@ class LoginForm extends StatelessWidget {
         child: Form(
           child: Column(
             children: [
-              const Spacer(flex: 1),
+              const SizedBox(height: 20),
               Text('Login', style: titleColorApppF24),
-              const Spacer(flex: 1),
+              const SizedBox(height: 45),
               CustomTextFormField(
                 width: sizeWidth * 0.7,
                 label: "Correo",
@@ -53,7 +52,7 @@ class LoginForm extends StatelessWidget {
                   ? email.errorMessage
                   : null,
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 40),
               CustomTextFormField(
                 width: sizeWidth * 0.7,
                 label: 'Contraseña',
@@ -68,7 +67,7 @@ class LoginForm extends StatelessWidget {
                   ? password.errorMessage
                   : null,
               ),
-              const Spacer(flex: 1),
+              const SizedBox(height: 35),
               SizedBox(
                 width: sizeWidth * 0.7,
                 height: 50,
@@ -76,7 +75,7 @@ class LoginForm extends StatelessWidget {
                   text: 'Iniciar Sesión',
                   buttonColor: const Color(0xFFF48C06),
                   onPressed: () {
-                  showDialog(
+                  showDialog( //FIXME:  
                     context: context,
                     barrierDismissible: false, // Evita que se cierre al hacer clic fuera
                     builder: (context) => const Center(
@@ -91,7 +90,7 @@ class LoginForm extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(flex: 3),
+              const SizedBox(height: 60),
             ],
           ),
         ),
