@@ -7,15 +7,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = createAppRouter(context);
     return MaterialApp.router(
-      routerConfig: createAppRouter(context),
+      routerConfig: router,
       theme: AppTheme(
         selectedColor: 0,
-        isDarkMode: false
+        isDarkMode: false,
       ).getTheme(),
       title: 'OrderFast',
       debugShowCheckedModeBanner: false,
     );
   }
-
 }
