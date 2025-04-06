@@ -17,6 +17,7 @@ class RenderAuthDatasourceImpl implements AuthDatasource {
 
   @override
   Future<User> login(String email, String password) async {
+    await Future.delayed(Duration(milliseconds: 500));
     try {
       final response = await dio.post(
         '/auth/login',

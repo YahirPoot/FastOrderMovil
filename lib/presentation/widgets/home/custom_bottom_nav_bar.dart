@@ -37,14 +37,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
           unactiveIconColor: greyColor
         ),
         _buildBottomNavigationBarItem(
-          activeIcon: Icons.favorite,
-          icon: Icons.favorite_border_outlined,
-          label: 'Favorites',
-          fontSizes: 28,
-          activeIconColor:withe70Color,
-          unactiveIconColor: greyColor
-        ),
-        _buildBottomNavigationBarItem(
           activeIcon: Icons.notifications,
           icon: Icons.notifications_outlined,
           label: 'Notifications',

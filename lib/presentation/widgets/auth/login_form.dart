@@ -3,7 +3,6 @@ import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -23,12 +22,11 @@ class LoginForm extends StatelessWidget {
     final password = registerBloc.state.password;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) { //Escucha los cambios de estado del bloc
-        // Cerrar el loading cuando el estado cambie
         if (state.authStatus != AuthStatus.checking) {
-          Navigator.of(context, rootNavigator: true).pop(); // Cierra el diálogo
+          Navigator.of(context, rootNavigator: true).pop(); // Cierra el diálogo si es estado no esta en checking
         }
 
-        if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
+        if (state.errorMessage != null && state.errorMessage!.isNotEmpty) { // Si hay un mensaje de error se muestra
           showSnackbar(context, state.errorMessage!);
         }
       },
@@ -37,9 +35,9 @@ class LoginForm extends StatelessWidget {
         child: Form(
           child: Column(
             children: [
-              const Spacer(flex: 1),
+              const SizedBox(height: 20),
               Text('Login', style: titleColorApppF24),
-              const Spacer(flex: 1),
+              const SizedBox(height: 45),
               CustomTextFormField(
                 width: sizeWidth * 0.7,
                 label: "Correo",
@@ -53,7 +51,7 @@ class LoginForm extends StatelessWidget {
                   ? email.errorMessage
                   : null,
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 40),
               CustomTextFormField(
                 width: sizeWidth * 0.7,
                 label: 'Contraseña',
@@ -68,15 +66,16 @@ class LoginForm extends StatelessWidget {
                   ? password.errorMessage
                   : null,
               ),
-              const Spacer(flex: 1),
+              const SizedBox(height: 35),
               SizedBox(
                 width: sizeWidth * 0.7,
                 height: 50,
                 child: CustomFilledButtomn(
                   text: 'Iniciar Sesión',
                   buttonColor: const Color(0xFFF48C06),
-                  onPressed: () {
-                  showDialog(
+                  onPressed: registerBloc.state.isPosting ? null 
+                  : () {
+                    showDialog( //*ejecuta esto la primera vez, ya que es estado del register bloc no es posting
                     context: context,
                     barrierDismissible: false, // Evita que se cierre al hacer clic fuera
                     builder: (context) => const Center(
@@ -86,12 +85,11 @@ class LoginForm extends StatelessWidget {
                     ),
                   );
 
-                    registerBloc.add(SubmitForm());
-
-                  },
+                    registerBloc.add(SubmitForm()); //*al ejecutar esto la primer vez, el estado del manda a isFormPosted a true y su es valido manda el is posting.
+                  }
                 ),
               ),
-              const Spacer(flex: 3),
+              const SizedBox(height: 60),
             ],
           ),
         ),

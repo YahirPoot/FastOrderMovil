@@ -9,12 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 GoRouter createAppRouter(BuildContext context) {
   final goRouterNotifier = GoRouterNotifier(context.read<AuthBloc>()); // Instancia del notifier
-
+  final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
   return GoRouter(
+    navigatorKey: rootNavigatorKey, // Se asigna la clave del navegador raíz
     refreshListenable: goRouterNotifier, // Se pasa el notifier al router
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
-      print('GoRouter redirect: Current authStatus is ${authState.authStatus}');
+      // print('GoRouter redirect: Current authStatus is ${authState.authStatus}');
 
       final isAuthenticated = authState.authStatus == AuthStatus.authenticated;
       final isChecking = authState.authStatus == AuthStatus.checking;

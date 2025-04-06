@@ -56,6 +56,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return false;
       }
     }
+    on<LogoutEvent>((event, emit) async { //* Logout event
+      await logout(emit: emit);
+    });
 
     on<CheckAuthStatus>((event, emit) async { //* Check if the user is authenticated every time the app starts
       print('AuthBloc: state: ${state.authStatus}');
