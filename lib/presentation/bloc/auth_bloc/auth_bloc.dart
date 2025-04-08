@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:fast_order/domain/index.dart';
 import 'package:fast_order/infrastructure/index.dart';
+import 'package:flutter/material.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -25,6 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _keyValueStorageService.setKeyValue('refreshToken', user.refreshToken);
       emit(state.copyWith(
         authStatus: AuthStatus.authenticated,
+        errorMessage: '',
         user: user,
       ));
       print('AuthBloc: state: ${ state.authStatus}');
@@ -86,12 +88,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await setLoggedUser(user: user, emit: emit);
       } on WrongCredentials catch (e) {
         await logout(
-          errorMessage: e.message, 
+          errorMessage: '${e.message} ${UniqueKey().toString()}', 
           emit: emit
           );
       } on CustomError catch (e) {
         await logout(
-          errorMessage: e.message, 
+          errorMessage: e.message, //TODO: AGREGAR KEYS EN LOS ERRORES
           emit: emit
           );
       } on MappingError catch (e) {

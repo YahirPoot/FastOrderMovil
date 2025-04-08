@@ -25,5 +25,13 @@ class UpdatePassword extends RegisterEvent {
   List<Object> get props => [password];
 }
 
+class UpdateIsDialogOpen extends RegisterEvent {
+  final bool isDialogOpen;
+  const UpdateIsDialogOpen(this.isDialogOpen);
+
+  @override
+  List<Object> get props => [isDialogOpen];
+}
+
 // Evento para enviar el formulario
 class SubmitForm extends RegisterEvent {}

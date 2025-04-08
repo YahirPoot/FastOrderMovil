@@ -21,7 +21,7 @@ class RegisterFormBloc extends Bloc<RegisterEvent, RegisterFormState> {
       emit(state.copyWith(
         email: email,
         password: password,
-        isFormPosted: true,
+        isFormPosted: true, //para mostrar los errores del form.
         isValid: Formz.validate([email, password]),
       ));
 
@@ -34,28 +34,32 @@ class RegisterFormBloc extends Bloc<RegisterEvent, RegisterFormState> {
     }
 
     on<SubmitForm>((event, emit) async {
-        touchEveryField(emit);
+      touchEveryField(emit);
 
-        if (!state.isValid) return;
+      if (!state.isValid) return;
 
-        emit(state.copyWith(isPosting: true,));
-        print('state: ${{
-          "isFormPosted": state.isFormPosted,
-          "isPosting": state.isPosting,
-          "isValid": state.isValid,
-          "email": state.email,
-          "password": state.password
-        }}');
-        
-        // Crear un Completer para esperar el resultado del AuthBloc
-        final completer = Completer<void>();
+      emit(state.copyWith(isPosting: true));
+      print('state: ${{
+        "isFormPosted": state.isFormPosted,
+        "isPosting": state.isPosting,
+        "isValid": state.isValid,
+        "email": state.email,
+        "password": state.password
+      }}');
+
+      // Crear un Completer para esperar el resultado del AuthBloc
+      final completer = Completer<void>();
 
         // Escuchar el estado del AuthBloc
         final subscription = authBloc.stream.listen((authState) {
-          if (authState.authStatus != AuthStatus.checking) {
-            completer.complete(); // Completar cuando el estado cambie
+        if (authState.authStatus != AuthStatus.checking || //verifica que el estado sea diferente a checking
+            (authState.errorMessage != null && authState.errorMessage!.isNotEmpty)) { // y que tenga un error que no sea nulo.
+          if (!completer.isCompleted) {
+            completer.complete();
           }
-        });
+        }
+      });
+
 
         // Enviar el evento al AuthBloc
         authBloc.add(
@@ -70,8 +74,7 @@ class RegisterFormBloc extends Bloc<RegisterEvent, RegisterFormState> {
 
         // Cancelar la suscripción al stream
         await subscription.cancel();
-        
-        emit(state.copyWith(isPosting: false,));
+        emit(state.copyWith(isPosting: false)); //*Para que legue aquí tiene que salir todo bien en el loginEvent - ya que si no sale bien, no llegará a este punto.
     });
 
     on<UpdateEmail>((event, emit) {
@@ -87,6 +90,12 @@ class RegisterFormBloc extends Bloc<RegisterEvent, RegisterFormState> {
       emit(state.copyWith(
         password: newPassword,
         isValid: Formz.validate([state.email, newPassword]),
+      ));
+    });
+
+    on<UpdateIsDialogOpen>((event, emit) {
+      emit(state.copyWith(
+        isDialogOpen: event.isDialogOpen,
       ));
     });
   }
