@@ -1,5 +1,5 @@
 import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:fast_order/presentation/bloc/register_bloc/register_form_bloc.dart';
+import 'package:fast_order/presentation/bloc/register_form_bloc/register_form_bloc.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
