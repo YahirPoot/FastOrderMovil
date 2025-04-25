@@ -47,5 +47,5 @@ app.*.map.json
 /android/app/release
 
 # Ignorar archivos generados automáticamente por Android y CMake
-android/app/.cxx/
+/android/app/.cxx/
 *.bin
