@@ -1,3 +1,4 @@
+import 'package:fast_order/config/plugins/auto_size_text.adapter.dart';
 import 'package:fast_order/config/plugins/carousel_slider.adapter.dart';
 import 'package:fast_order/config/themes/index.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final carouselAndWelcomeBoxHeight = size.height * 0.22;
+    final carouselAndWelcomeBoxHeight = size.height * 0.23;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,7 +43,10 @@ class HomeView extends StatelessWidget {
                     ),
 
                   //* Presentación del día
-                  WelcomBox(width: size.width * 0.45,),
+                  WelcomBox(
+                    height: carouselAndWelcomeBoxHeight,
+                    width: size.width * 0.45,
+                    ),
                 ],
               ),
             ),
@@ -65,73 +69,105 @@ class WelcomBox extends StatelessWidget {
   const WelcomBox({
     super.key,
     required this.width,
+    required this.height,
   });
 
   final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      height: height,
       padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
-      child: Column(
+      child: Column( //este column tiene el constraint de la caja de bienvenida.
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //* Título Guisos del día
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Guisos',
-                style: TextStyle(
-                  fontSize: 29,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                  height: 0.85,
-                  letterSpacing: .5,
+          Expanded( //expanded para que tenga el constraint de la caja de bienvenida.
+          flex: 5,
+            child: Column( 
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Flexible(
+                  flex: 2,
+                  child: ResponsiveText(
+                    text:'Guisos',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                      height: 0.85,
+                      letterSpacing: .5,
+                    ),
+                    // minFontSize: 8,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              Text(
-                'del día',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                Flexible(
+                  flex: 3,
+                  child: ResponsiveText(
+                    text:'del día',
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black87,
+                    ),
+                    // minFontSize: 12,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-    
+
           //* Fecha
-          CustomDate( width: width, ),
+          Expanded(
+            flex: 2,
+            child: CustomDate( width: width, )
+            ),
     
           //* Num. Raciones disponibles + Platillos disponibles
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '20',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: colorList[0],
+          Expanded(//expanded para que tenga el constraint de la caja de bienvenida.
+          flex: 4,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: ResponsiveText(
+                    text:'20',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w800,
+                      color: colorList[0],
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 24,
+                    maxLines: 1,
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'Platillos\ndisponibles',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black87,
-                  height: 0.95,
+
+                Flexible(
+                  flex: 6,
+                  child: ResponsiveText(
+                    text:'Platillos\ndisponibles',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                      height: 0.95,
+                    ),
+                    maxFontSize: 12,
+                    minFontSize: 10,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
@@ -164,8 +200,8 @@ class ImagesCarousel extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Center(
-              child: Text(
-                'Platillo $i',
+              child: ResponsiveText(
+                text: 'Platillo $i',
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -196,13 +232,15 @@ class CustomDate extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(
-        child: Text(
-          'Miercoles 20 Septiembre',
+        child: ResponsiveText(
+          text:'Miercoles 20 Septiembre',
           style: TextStyle(
-            fontSize: 9,
-            fontWeight: FontWeight.bold,
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
             color: Colors.white,
             ),
+            maxFontSize: 12,
+            minFontSize: 8,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
