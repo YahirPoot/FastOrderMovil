@@ -1,6 +1,6 @@
 import 'package:fast_order/domain/index.dart';
 
-abstract class DishRepository {
+abstract class DishDatasource {
 
   Future<List<Dish>> getAvailableDishes();
 

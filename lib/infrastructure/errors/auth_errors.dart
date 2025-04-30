@@ -28,3 +28,7 @@ class MappingError implements Exception {
   final String message;
   MappingError(this.message);
 }
+class InvalidRefreshToken implements Exception {
+  final String? message;
+  InvalidRefreshToken({this.message});
+}
