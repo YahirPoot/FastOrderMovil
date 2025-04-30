@@ -29,18 +29,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         errorMessage: '',
         user: user,
       ));
-      print('AuthBloc: state: ${ state.authStatus}');
+      // print('AuthBloc: state: ${ state.authStatus}');
     }
 
     Future<void> logout({String? errorMessage, required Emitter<AuthState> emit}) async {
       await _keyValueStorageService.removeKey('accessToken');
       await _keyValueStorageService.removeKey('refreshToken');
+      //TODO: Implementar el logout en el backend Y ejecutar la ruta desde aquí.
       emit(state.copyWith(
         authStatus: AuthStatus.notAuthenticated,
         user: null,
         errorMessage: errorMessage,
       ));
-      print('AuthBloc: state: ${ state.authStatus}');
+      // print('AuthBloc: state: ${ state.authStatus}');
     }
 
     Future<bool> refreshTokens(Emitter<AuthState> emit, String refreshToken) async {
@@ -63,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<CheckAuthStatus>((event, emit) async { //* Check if the user is authenticated every time the app starts
-      print('AuthBloc: state: ${state.authStatus}');
+      // print('AuthBloc: state: ${state.authStatus}');
       final accessToken = await _keyValueStorageService.getValue<String>('accessToken');
       final refreshToken = await _keyValueStorageService.getValue<String>('refreshToken');
 
@@ -93,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
       } on CustomError catch (e) {
         await logout(
-          errorMessage: e.message, //TODO: AGREGAR KEYS EN LOS ERRORES
+          errorMessage: e.message,
           emit: emit
           );
       } on MappingError catch (e) {

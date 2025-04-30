@@ -23,7 +23,7 @@ class WelcomBox extends StatelessWidget {
         children: [
           //* Título Guisos del día
           Expanded( //expanded para que tenga el constraint de la caja de bienvenida.
-          flex: 5,
+          flex: 7,
             child: Column( 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -32,10 +32,10 @@ class WelcomBox extends StatelessWidget {
                   child: ResponsiveText(
                     text:'Guisos',
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: 28,
                       fontWeight: FontWeight.w900,
                       color: Colors.black,
-                      height: 0.85,
+                      height: 0.95,
                       letterSpacing: .5,
                     ),
                     // minFontSize: 8,
@@ -48,7 +48,7 @@ class WelcomBox extends StatelessWidget {
                   child: ResponsiveText(
                     text:'del día',
                     style: TextStyle(
-                      fontSize: 23,
+                      fontSize: 25,
                       fontWeight: FontWeight.w900,
                       color: Colors.black87,
                     ),
@@ -69,36 +69,37 @@ class WelcomBox extends StatelessWidget {
           Expanded(//expanded para que tenga el constraint de la caja de bienvenida.
           flex: 4,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: ResponsiveText(
                     text:'20',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
                       color: colorList[0],
+                      height: 0.8,
                     ),
+                    textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    minFontSize: 24,
                     maxLines: 1,
                   ),
                 ),
 
-                Flexible(
+                Expanded(
                   flex: 6,
                   child: ResponsiveText(
                     text:'Platillos\ndisponibles',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: Colors.black87,
                       height: 0.95,
                     ),
-                    maxFontSize: 12,
-                    minFontSize: 10,
+                    maxFontSize: 16,
+                    minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),

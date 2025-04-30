@@ -1,5 +1,8 @@
+import 'package:fast_order/config/index.dart';
+import 'package:fast_order/presentation/bloc/available_dishes_bloc/available_dishes_bloc.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CarouselWithWelcomeBox extends StatelessWidget {
   final double height;
@@ -21,9 +24,22 @@ class CarouselWithWelcomeBox extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //* Carrusel de imágenes
-          ImagesCarousel(
-            height: height,
-            width: carouselWidth,
+          BlocBuilder<AvailableDishesBloc, AvailableDishesState>(
+            builder: (context, state) {
+              if (state.isFetching) {
+                return Expanded(child: const Center(child: CircularProgressIndicator()));
+              }
+
+              if (state.errorMessage.isNotEmpty) {
+                return Expanded(child: Center(child: ResponsiveText(text: state.errorMessage,)));
+              }
+
+              return AvailableDishesCarousel(
+                height: height,
+                width: carouselWidth,
+                dishes: state.availableDishes ?? [],
+              );
+            },
           ),
 
           //* Presentación del día

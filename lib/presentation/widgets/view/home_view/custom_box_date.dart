@@ -10,8 +10,8 @@ class CustomDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedDate = DateTime.now().toString().split(' ')[0];
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 3),
       width: width,
       decoration: BoxDecoration(
         color: colorList[0],
@@ -19,14 +19,14 @@ class CustomDate extends StatelessWidget {
       ),
       child: Center(
         child: ResponsiveText(
-          text:'Miercoles 20 Septiembre',
+          text: formattedDate,
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w800,
             color: Colors.white,
             ),
-            maxFontSize: 12,
-            minFontSize: 8,
+            maxFontSize: 14,
+            minFontSize: 12,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
