@@ -1,5 +1,5 @@
 import 'package:fast_order/config/index.dart';
-import 'package:fast_order/presentation/bloc/available_dishes_bloc/available_dishes_bloc.dart';
+import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,9 +43,15 @@ class CarouselWithWelcomeBox extends StatelessWidget {
           ),
 
           //* Presentación del día
-          WelcomBox(
-            height: height,
-            width: welcomeBoxWidth,
+          BlocSelector<AvailableDishesBloc, AvailableDishesState, int>(
+            selector: (state) => state.availableDishes?.length ?? 0,
+            builder: (context, dishesAvailable) {
+              return WelcomBox(
+                height: height,
+                width: welcomeBoxWidth,
+                dishesAvailable: dishesAvailable,
+              );
+            },
           ),
         ],
       ),

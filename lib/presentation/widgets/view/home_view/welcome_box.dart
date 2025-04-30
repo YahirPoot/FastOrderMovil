@@ -7,10 +7,12 @@ class WelcomBox extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
+    required this.dishesAvailable,
   });
 
   final double width;
   final double height;
+  final int dishesAvailable;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class WelcomBox extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: ResponsiveText(
-                    text:'20',
+                    text:'$dishesAvailable',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
@@ -91,7 +93,9 @@ class WelcomBox extends StatelessWidget {
                 Expanded(
                   flex: 6,
                   child: ResponsiveText(
-                    text:'Platillos\ndisponibles',
+                    text: dishesAvailable == 1
+                        ? 'Platillo\ndisponible'
+                        : 'Platillos\ndisponibles',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
