@@ -31,7 +31,13 @@ class CarouselWithWelcomeBox extends StatelessWidget {
               }
 
               if (state.errorMessage.isNotEmpty) {
-                return Expanded(child: Center(child: ResponsiveText(text: state.errorMessage,)));
+                return Expanded(
+                  child: Center(child: ResponsiveText(
+                    text: state.errorMessage,
+                    maxLines: 3,
+                    )
+                  )
+                );
               }
 
               return AvailableDishesCarousel(

@@ -94,23 +94,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
       } on CustomError catch (e) {
         await logout(
-          errorMessage: e.message,
+          errorMessage: '${e.message} ${UniqueKey().toString()}',
           emit: emit
           );
       } on MappingError catch (e) {
         await logout(
-          errorMessage: e.message, 
+          errorMessage: '${e.message} ${UniqueKey().toString()}', 
           emit: emit
           );
       } on ConnectionTimeout {
         await logout(
-          errorMessage: 'Timeout de conexión', 
+          errorMessage: 'Timeout de conexión ${UniqueKey().toString()}', 
           emit: emit
           );
       } catch (e) {
         await logout(
           emit: emit,
-          errorMessage: 'Erorr not controlled', 
+          errorMessage: 'Erorr not controlled ${UniqueKey().toString()}', 
         );
       }
     });

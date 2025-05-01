@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_order/domain/index.dart';
@@ -9,15 +11,14 @@ part 'available_dishes_state.dart';
 
 class AvailableDishesBloc extends Bloc<AvailableDishesEvent, AvailableDishesState> {
   final DishRepository _dishRepository;
-  final AuthBloc _authBloc;
+  final AuthBloc authBloc;
 
   AvailableDishesBloc({
     KeyValueStorageService? keyValueStorageService,
-    AuthBloc? authBloc,
     DishRepository? dishRepository,
+    required this.authBloc,
   })  
   : _dishRepository = dishRepository ?? DishRepositoryImpl(),
-    _authBloc = authBloc ?? AuthBloc(keyValueStorageService: keyValueStorageService),
     super(AvailableDishesState()) {
 
     settAvailableDishesState({ List<Dish>? availableDishes, required Emitter<AvailableDishesState> emit}) {
@@ -42,12 +43,14 @@ class AvailableDishesBloc extends Bloc<AvailableDishesEvent, AvailableDishesStat
         final List<Dish> availableDishes = await _dishRepository.getAvailableDishes();
         settAvailableDishesState(availableDishes: availableDishes, emit: emit);
 
-      } on InvalidRefreshToken catch (e) {
+      } on InvalidRefreshToken catch (e){
         emit(state.copyWith(
           errorMessage: e.message,
           isFetching: false,
         ));
-        _authBloc.add(LogoutEvent());
+        // Disparar el evento de Logout
+        authBloc.add(LogoutEvent());
+      
       } on ConnectionTimeout {
         emit(state.copyWith(
           errorMessage: 'Connection timeout',

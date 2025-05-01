@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => AvailableDishesBloc()..add(FetchAvailableDishesEvent()),
+      create: (context) => AvailableDishesBloc( authBloc: context.read<AuthBloc>() )..add(FetchAvailableDishesEvent()), //pasar el Blocque de los platillos disponbiles
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
