@@ -37,7 +37,7 @@ class RenderDishDatasourceImpl implements DishDatasource {
 
       if( e.error is InvalidRefreshToken) throw InvalidRefreshToken(message: 'Invalid refresh token');
       if( e.type == DioExceptionType.connectionTimeout ) throw ConnectionTimeout();
-      
+      if( e.response?.statusCode == 404 ) throw CustomError('${e.response?.data['error']}', e.response?.statusCode ?? 404);
       throw CustomError('Unexpected DioException', 500);
     }
     
