@@ -1,4 +1,3 @@
-import 'package:fast_order/config/index.dart';
 import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -18,39 +17,25 @@ class CarouselWithWelcomeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final BoxDecoration boxDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+    );
+    return Container(
+      decoration: boxDecoration,
       height: height,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           //* Carrusel de imágenes
-          BlocBuilder<AvailableDishesBloc, AvailableDishesState>(
-            builder: (context, state) {
-              if (state.isFetching) {
-                return Expanded(child: const Center(child: CircularProgressIndicator()));
-              }
-
-              if (state.errorMessage.isNotEmpty) {
-                return Expanded(
-                  child: Center(child: ResponsiveText(
-                    text: state.errorMessage,
-                    maxLines: 3,
-                    )
-                  )
-                );
-              }
-
-              return AvailableDishesCarousel(
-                height: height,
-                width: carouselWidth,
-                dishes: state.availableDishes ?? [],
-              );
-            },
+          AvailableDishesCarousel(
+            height: height,
+            width: carouselWidth,
+            boxDecoration: boxDecoration,
           ),
 
           //* Presentación del día
-          BlocSelector<AvailableDishesBloc, AvailableDishesState, int>(
-            selector: (state) => state.availableDishes?.length ?? 0,
+          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>(
+            selector: (state) => state.isFetching ? null : state.availableDishes?.length,
             builder: (context, dishesAvailable) {
               return WelcomBox(
                 height: height,

@@ -1,62 +1,101 @@
 import 'package:fast_order/config/index.dart';
 import 'package:flutter/material.dart';
-import '../../../../domain/index.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../bloc/index.dart';
+import 'index.dart';
 
 class AvailableDishesCarousel extends StatelessWidget {
-  AvailableDishesCarousel({
+  final double height;
+  final double width;
+  final BoxDecoration? boxDecoration;
+
+  const AvailableDishesCarousel({
     super.key,
     required this.height,
     required this.width,
-    required this.dishes,
+    this.boxDecoration,
   });
-
-  final double height;
-  final double width; // Ancho del carrusel de imágenes
-  final List<Dish> dishes; // Lista de platillos
-  final CarouselAdapter carousel = CarouselSliderAdapter(); // Instancia del adaptador de carrusel
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: carousel.buildCarousel(
-        height: height,
-        items: dishes.map((dish) {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              // color: Colors.amber,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      dish.imageUrl ?? 'https://blog.usecure.io/hs-fs/hubfs/error.png?width=450&name=error.png',
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: ResponsiveText(
-                    text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}', // Convierte la primera letra a mayúscula
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 1,
-                  ),
-                )
-              ],
+    return BlocBuilder<AvailableDishesBloc, AvailableDishesState>(
+      builder: (context, state) {
+
+        if (state.isFetching) { // Si está cargando, muestra el shimmer
+          return ShimmerDishCard(
+            height: height,
+            width: width,
+            itemCount: 3, // Número de elementos a mostrar
+          );
+        }
+
+        if (state.errorMessage.isNotEmpty) {
+          return Expanded(
+            child: Center(
+              child: Text(
+                state.errorMessage,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
             ),
           );
-        }).toList(),
-        )
+        }
+
+        final dishes = state.availableDishes ?? [];
+
+        return SizedBox(
+          width: width,
+          child: CarouselSliderAdapter().buildCarousel(
+            height: height,
+            items: dishes.map((dish) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8), //Don't repeat your self.
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          dish.imageUrl ??
+                              'https://blog.usecure.io/hs-fs/hubfs/error.png?width=450&name=error.png',
+                          fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[300],
+                              child: const Icon(
+                                Icons.broken_image,
+                                color: Colors.grey,
+                                size: 50,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: ResponsiveText(
+                        text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 }

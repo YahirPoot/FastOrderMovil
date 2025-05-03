@@ -7,19 +7,19 @@ class WelcomBox extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.dishesAvailable,
+    this.dishesAvailable,
   });
 
   final double width;
   final double height;
-  final int dishesAvailable;
+  final int? dishesAvailable;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       height: height,
-      padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
       child: Column( //este column tiene el constraint de la caja de bienvenida.
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,11 +38,13 @@ class WelcomBox extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                       color: Colors.black,
                       height: 0.95,
-                      letterSpacing: .5,
+                      letterSpacing: 1,
                     ),
                     // minFontSize: 8,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    maxFontSize: 32,
+                    
                   ),
                 ),
                 Flexible(
@@ -50,11 +52,14 @@ class WelcomBox extends StatelessWidget {
                   child: ResponsiveText(
                     text:'del día',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 26,
                       fontWeight: FontWeight.w900,
                       color: Colors.black87,
+                      letterSpacing: 1
                     ),
                     // minFontSize: 12,
+                    maxFontSize: 28,
+                    maxLines: 1,
                   ),
                 ),
               ],
@@ -68,14 +73,16 @@ class WelcomBox extends StatelessWidget {
             ),
     
           //* Num. Raciones disponibles + Platillos disponibles
-          Expanded(//expanded para que tenga el constraint de la caja de bienvenida.
+          dishesAvailable == null 
+          ? ShimmerDishesAvailableText(height: height, width: width)
+          : Expanded(
           flex: 4,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: ResponsiveText(
                     text:'$dishesAvailable',
                     style: TextStyle(
@@ -87,6 +94,7 @@ class WelcomBox extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
+                    minFontSize: 18,
                   ),
                 ),
 
@@ -102,7 +110,7 @@ class WelcomBox extends StatelessWidget {
                       color: Colors.black87,
                       height: 0.95,
                     ),
-                    maxFontSize: 16,
+                    maxFontSize: 18,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
