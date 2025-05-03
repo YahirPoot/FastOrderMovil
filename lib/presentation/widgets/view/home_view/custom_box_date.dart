@@ -21,11 +21,11 @@ class CustomDate extends StatelessWidget {
         child: ResponsiveText(
           text: formattedDate,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
             color: Colors.white,
             ),
-            maxFontSize: 14,
+            maxFontSize: 18,
             minFontSize: 12,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,

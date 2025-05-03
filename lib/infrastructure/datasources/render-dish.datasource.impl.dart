@@ -24,9 +24,8 @@ class RenderDishDatasourceImpl implements DishDatasource {
   
   @override
   Future<List<Dish>> getAvailableDishes() async{
-
+    await Future.delayed(const Duration(milliseconds: 500));
     try {
-
       final response = await dio.get('/sched-dish/available-dishes');
 
       final List<Dish> dishes = (response.data as List).map((dish) => DishMapper.dishToEntity(dish)).toList();
