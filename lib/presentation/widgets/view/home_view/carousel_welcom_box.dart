@@ -34,8 +34,12 @@ class CarouselWithWelcomeBox extends StatelessWidget {
           ),
 
           //* Presentación del día
-          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>(
-            selector: (state) => state.isFetching ? null : state.availableDishes?.length,
+          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>( //Me gustaría hacer que si no hay platillos dispoinbles, en este caso caería que ya no esta haciendo fetching pero state.availableDishes?.length puede ser null. 
+            selector: (state) {
+              if(state.isFetching) return null;
+              if(state.availableDishes == null || state.availableDishes!.isEmpty) return 0;
+              return state.availableDishes!.length;
+            },
             builder: (context, dishesAvailable) {
               return WelcomBox(
                 height: height,
