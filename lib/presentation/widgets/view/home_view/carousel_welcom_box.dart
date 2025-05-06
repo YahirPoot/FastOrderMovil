@@ -21,6 +21,7 @@ class CarouselWithWelcomeBox extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
     );
     return Container(
+      margin: const EdgeInsets.only(bottom: 8),
       decoration: boxDecoration,
       height: height,
       child: Row(
@@ -33,9 +34,13 @@ class CarouselWithWelcomeBox extends StatelessWidget {
             boxDecoration: boxDecoration,
           ),
 
-          //* Presentación del día
-          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>(
-            selector: (state) => state.isFetching ? null : state.availableDishes?.length,
+          //* Presentación del día //TODO: REFACTORIZAR ESTO DENTRO DE WIDGET INTERNO.
+          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>( //Me gustaría hacer que si no hay platillos dispoinbles, en este caso caería que ya no esta haciendo fetching pero state.availableDishes?.length puede ser null. 
+            selector: (state) {
+              if(state.isFetching) return null;
+              if(state.availableDishes == null || state.availableDishes!.isEmpty) return 0;
+              return state.availableDishes!.length;
+            },
             builder: (context, dishesAvailable) {
               return WelcomBox(
                 height: height,
