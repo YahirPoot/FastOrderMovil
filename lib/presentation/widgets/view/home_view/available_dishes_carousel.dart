@@ -81,7 +81,9 @@ class AvailableDishesCarousel extends StatelessWidget {
                       flex: 1,
                       child: ResponsiveText(
                         text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
-                        style: subtitleBlackF16W600,
+                        style: subtitleBlackF16.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
