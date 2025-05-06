@@ -1,3 +1,4 @@
+import 'package:fast_order/config/index.dart';
 import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class HomeView extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
+              color: colorList[1],
             ),
           ),
         ),
@@ -34,12 +35,18 @@ class HomeView extends StatelessWidget {
               carouselWidth: size.width * 0.5,
               welcomeBoxWidth: size.width * 0.5,
             ),
+
+            Divider(
+              height: 5,
+              color: Colors.grey[200],
+              endIndent: 16,
+              indent: 16,
               
-              
-            //! rations available Text.
-              
-            //! carrusel de los platillos disponibles.
-        
+            ),
+
+            Expanded(child: DishesListView(size: size)),
+
+            
           ],
         )
         
@@ -48,4 +55,3 @@ class HomeView extends StatelessWidget {
 
   }
 }
-

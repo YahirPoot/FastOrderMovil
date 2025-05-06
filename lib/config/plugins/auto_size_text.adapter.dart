@@ -12,6 +12,7 @@ class ResponsiveText extends StatelessWidget {
     this.maxLines = 1,
     this.overflow = TextOverflow.ellipsis,
     this.textAlign,
+    this.group,
   });
 
   final String text;
@@ -21,6 +22,7 @@ class ResponsiveText extends StatelessWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
+  final ResponsiveTextGroup? group;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,11 @@ class ResponsiveText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
+      group: group?._autoSizeGroup, //que es lo que hace este group?._autoSizeGroup?
     );
   }
   
+}// Clase para manejar grupos de ResponsiveText
+class ResponsiveTextGroup {
+  final AutoSizeGroup _autoSizeGroup = AutoSizeGroup(); // Internamente usa AutoSizeGroup
 }

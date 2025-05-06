@@ -6,8 +6,8 @@ class DishMapper {
     final id = json['id'];
     final name = json['nombre'];
     final imageUrl = json['rutaImagen'];
-    final pricePerServing = json['precioMedia'];
-    final pricePerHalfServing = json['precioEntera'];
+    final pricePerServing = json['precioEntera'];
+    final pricePerHalfServing = json['precioMedia'];
     final availableServings = json['racionesDisponibles'].toDouble();
     // final sidesId = json['sidesId']?.cast<int>(); //TODO: Add SidesId
 
