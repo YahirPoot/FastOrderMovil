@@ -60,7 +60,7 @@ class LoginForm extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Text('Login', style: titleColorApppF24),
+              Text('Login', style: titlOrangeF24),
               const SizedBox(height: 45),
               CustomTextFormField(
                 width: sizeWidth * 0.7,

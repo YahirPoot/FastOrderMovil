@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const TextStyle titleColorApppF24 =
+const TextStyle titlOrangeF24 =
     TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFF48C06));
 
 const TextStyle titleBlackF24 =
@@ -12,16 +12,10 @@ const TextStyle titleWhitheF18 =
 const TextStyle titleWhiteF24 =
     TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white);
 
-const TextStyle subtitleBlackF16Bold =
+const TextStyle subtitleBlackF16 =
     TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black);
 
-const TextStyle subtitleBlackF16W600 = 
-    TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black);
-
 const TextStyle subtitleBlackF14 = 
-    TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
-
-const TextStyle descriptionBlackF16 =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
 
 const TextStyle descriptionOrangeF14 =
