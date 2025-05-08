@@ -1,7 +1,5 @@
-import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CarouselWithWelcomeBox extends StatelessWidget {
   final double height;
@@ -34,20 +32,10 @@ class CarouselWithWelcomeBox extends StatelessWidget {
             boxDecoration: boxDecoration,
           ),
 
-          //* Presentación del día //TODO: REFACTORIZAR ESTO DENTRO DE WIDGET INTERNO.
-          BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>( //Me gustaría hacer que si no hay platillos dispoinbles, en este caso caería que ya no esta haciendo fetching pero state.availableDishes?.length puede ser null. 
-            selector: (state) {
-              if(state.isFetching) return null;
-              if(state.availableDishes == null || state.availableDishes!.isEmpty) return 0;
-              return state.availableDishes!.length;
-            },
-            builder: (context, dishesAvailable) {
-              return WelcomBox(
-                height: height,
-                width: welcomeBoxWidth,
-                dishesAvailable: dishesAvailable,
-              );
-            },
+          //* Caja de bienvenida
+          WelcomBox(
+            height: height,
+            width: welcomeBoxWidth
           ),
         ],
       ),
