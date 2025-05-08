@@ -19,7 +19,11 @@ class DishesListView extends StatelessWidget {
     return BlocBuilder<AvailableDishesBloc, AvailableDishesState>(
       builder: (context, state) {
         if (state.isFetching) {
-          //TODO: Agregar shimmer
+          // Mostrar shimmer mientras se cargan los datos
+          return ListView.builder(
+            itemCount: 6, // Número de shimmers a mostrar
+            itemBuilder: (context, index) => const ShimmerSlideDish(),
+          );
         }
         
         if (state.errorMessage.isNotEmpty) {
@@ -155,6 +159,105 @@ class _SlideDish extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_forward_ios_outlined, // Ícono de carrito de compras
                 color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerSlideDish extends StatelessWidget {
+  const ShimmerSlideDish({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      height: 155,
+      child: Card(
+        color: Colors.white,
+        elevation: 6,
+        margin: const EdgeInsets.only(top: 4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: Row(
+          children: [
+            // Imagen shimmer
+            Padding(
+              padding: const EdgeInsets.fromLTRB(2, 2, 0, 2),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: ShimmerAdapter.createShimmer(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: 155,
+                    height: 155,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            // Contenido shimmer
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Título shimmer
+                  ShimmerAdapter.createShimmer(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      height: 16,
+                      width: double.infinity,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  // Subtítulo shimmer
+                  ShimmerAdapter.createShimmer(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      height: 14,
+                      width: 150,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  // Precios shimmer
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ShimmerAdapter.createShimmer(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 14,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ResponsiveText(text: ' | ' , 
+                        style: TextStyle(
+                          color: Colors.grey
+                        )),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ShimmerAdapter.createShimmer(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 14,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
