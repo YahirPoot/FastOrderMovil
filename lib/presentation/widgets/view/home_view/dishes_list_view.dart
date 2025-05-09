@@ -20,17 +20,21 @@ class DishesListView extends StatelessWidget {
       builder: (context, state) {
         if (state.isFetching) {
           // Mostrar shimmer mientras se cargan los datos
-          return ListView.builder(
-            itemCount: 6, // Número de shimmers a mostrar
-            itemBuilder: (context, index) => const ShimmerSlideDish(),
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => const ShimmerSlideDish(),
+              childCount: 5, // Número de elementos en el shimmer
+            ),
           );
         }
         
         if (state.errorMessage.isNotEmpty) {
-          return Center(
-            child: Text(
-              state.errorMessage,
-              style: const TextStyle(color: Colors.red),
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Text(
+                state.errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
           );
         }
@@ -38,24 +42,27 @@ class DishesListView extends StatelessWidget {
         final dishes = state.availableDishes ?? [];
     
         if (dishes.isEmpty) {
-          return const Center(
-            child: Text(
-              'No hay platillos disponibles',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          return SliverToBoxAdapter(
+            child: const Center(
+              child: Text(
+                'No hay platillos disponibles',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
             ),
           );
         }
         
-        return ListView.builder(
-          addRepaintBoundaries: false,
-          itemCount: dishes.length,
-          itemBuilder: (context, index) {
-            final dish = dishes[index];
-            return _SlideDish(
-              dish: dish,
-              priceGroup: priceGroup,
-            );
-          } 
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final dish = dishes[index];
+              return _SlideDish(
+                dish: dish,
+                priceGroup: priceGroup,
+              );
+            },
+            childCount: dishes.length,
+          ),
         );
       },
     );
