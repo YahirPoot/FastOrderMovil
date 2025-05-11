@@ -19,13 +19,10 @@ class HomeView extends StatelessWidget {
 
             // Este es el AppBar que desaparece al hacer scroll
             SliverAppBar(
-              title: Text(
-                'Hi, ${context.read<AuthBloc>().state.user?.fullName}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: colorList[1],
-                ),
+              title: ResponsiveText(
+                text: 'Hi, ${context.read<AuthBloc>().state.user?.fullName}',
+                style: subtitleOrangeF18,
+                maxFontSize: 30,
               ),
               floating: true, // Reaparece al hacer scroll hacia arriba
               snap: true,     // Hace el efecto de "snap" cuando se muestra
