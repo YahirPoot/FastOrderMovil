@@ -4,6 +4,8 @@ import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/index.dart';
+
 class WelcomBox extends StatelessWidget {
   const WelcomBox({
     super.key,
@@ -16,6 +18,11 @@ class WelcomBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final mq = MediaQuery.of(context);
+    // print('w: ${mq.size.width}, h: ${mq.size.height}, '
+    //       'DPR: ${mq.devicePixelRatio}, '
+    //       'Scale: ${mq.textScaleFactor}, '
+    //       'Diagonal: ${sqrt(mq.size.width * mq.size.width + mq.size.height * mq.size.height)}');
     return BlocSelector<AvailableDishesBloc, AvailableDishesState, int?>(
       selector: (state) {
         if (state.isFetching) return null;
@@ -35,34 +42,34 @@ class WelcomBox extends StatelessWidget {
                 flex: 7,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Flexible(
                       flex: 2,
                       child: ResponsiveText(
+                        textScaleFactor: 1.5,
                         text: 'Guisos',
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: scaleFont(28, context),
                           fontWeight: FontWeight.w900,
                           color: Colors.black,
                           height: 0.95,
-                          letterSpacing: 1,
+                          letterSpacing: 1.5,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        maxFontSize: 32,
                       ),
                     ),
                     Flexible(
                       flex: 3,
                       child: ResponsiveText(
+                        textScaleFactor: 1.5,
                         text: 'del día',
                         style: TextStyle(
-                          fontSize: 26,
+                          fontSize: scaleFont(26, context),
                           fontWeight: FontWeight.w900,
                           color: Colors.black87,
-                          letterSpacing: 1,
+                          letterSpacing: 1.5,
                         ),
-                        maxFontSize: 28,
                         maxLines: 1,
                       ),
                     ),
@@ -89,8 +96,9 @@ class WelcomBox extends StatelessWidget {
                             flex: 3,
                             child: ResponsiveText(
                               text: '$dishesAvailable',
+                              textScaleFactor: 1.5,
                               style: TextStyle(
-                                fontSize: 32,
+                                fontSize: scaleFont(31, context),
                                 fontWeight: FontWeight.w800,
                                 color: colorList[0],
                                 height: 0.8,
@@ -104,11 +112,12 @@ class WelcomBox extends StatelessWidget {
                           Expanded(
                             flex: 6,
                             child: ResponsiveText(
+                              textScaleFactor: 1.5,
                               text: dishesAvailable == 1
                                   ? 'Platillo\ndisponible'
                                   : 'Platillos\ndisponibles',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: scaleFont(13, context),
                                 fontWeight: FontWeight.w800,
                                 color: Colors.black87,
                                 height: 0.95,

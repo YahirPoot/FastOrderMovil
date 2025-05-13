@@ -13,6 +13,7 @@ class ResponsiveText extends StatelessWidget {
     this.overflow = TextOverflow.ellipsis,
     this.textAlign,
     this.group,
+    this.textScaleFactor,
   });
 
   final String text;
@@ -23,6 +24,7 @@ class ResponsiveText extends StatelessWidget {
   final TextOverflow? overflow;
   final TextAlign? textAlign;
   final ResponsiveTextGroup? group;
+  final double? textScaleFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class ResponsiveText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
+      textScaleFactor: textScaleFactor,
       group: group?._autoSizeGroup, //que es lo que hace este group?._autoSizeGroup?
     );
   }

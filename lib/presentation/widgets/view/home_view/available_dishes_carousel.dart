@@ -1,4 +1,5 @@
 import 'package:fast_order/config/index.dart';
+import 'package:fast_order/presentation/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/index.dart';
@@ -79,9 +80,12 @@ class AvailableDishesCarousel extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: ResponsiveText(
+                        textScaleFactor: 1.5,
                         text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
-                        style: subtitleBlackF16.copyWith(
-                          fontWeight: FontWeight.w600,
+                        style: textBlack.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                          fontSize: scaleFont(15, context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

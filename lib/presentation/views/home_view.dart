@@ -4,6 +4,8 @@ import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../utils/index.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -20,9 +22,12 @@ class HomeView extends StatelessWidget {
             // Este es el AppBar que desaparece al hacer scroll
             SliverAppBar(
               title: ResponsiveText(
+                textScaleFactor: 1.5,
                 text: 'Hi, ${context.read<AuthBloc>().state.user?.fullName}',
-                style: subtitleOrangeF18,
-                maxFontSize: 30,
+                style: textOrangeApp.copyWith(
+                  fontSize: scaleFont(16, context),
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               floating: true, // Reaparece al hacer scroll hacia arriba
               snap: true,     // Hace el efecto de "snap" cuando se muestra

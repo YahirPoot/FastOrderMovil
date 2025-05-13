@@ -1,6 +1,14 @@
 import 'package:fast_order/config/themes/index.dart';
 import 'package:flutter/material.dart';
 
+
+
+TextStyle textOrangeApp =
+    TextStyle(fontSize: 16, color: colorList[1]);
+
+TextStyle textOrange400 =
+    TextStyle(fontSize: 16, color: Colors.orange[400]);
+
 TextStyle titlOrangeF24 =
     TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorList[1]);
 
@@ -33,5 +41,6 @@ const TextStyle subtitleBlackF18 =
 const TextStyle subtitleBlackF14 = 
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black);
 
-
+const TextStyle textBlack = 
+    TextStyle(fontSize: 16, color: Colors.black);
 
