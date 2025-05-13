@@ -1,4 +1,5 @@
 import 'package:fast_order/config/index.dart';
+import 'package:fast_order/presentation/utils/scale_font.dart';
 import 'package:flutter/material.dart';
 
 class CustomDate extends StatelessWidget {
@@ -20,8 +21,9 @@ class CustomDate extends StatelessWidget {
       child: Center(
         child: ResponsiveText(
           text: formattedDate,
+          textScaleFactor: 1.5,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: scaleFont(16, context),
             fontWeight: FontWeight.w800,
             color: Colors.white,
             ),

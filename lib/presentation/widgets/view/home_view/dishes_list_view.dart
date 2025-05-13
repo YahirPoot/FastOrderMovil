@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/index.dart';
 import '../../../../domain/index.dart';
 import '../../../bloc/index.dart';
+import '../../../utils/index.dart';
 
 class DishesListView extends StatelessWidget {
   const DishesListView({
@@ -31,8 +32,8 @@ class DishesListView extends StatelessWidget {
         if (state.errorMessage.isNotEmpty) {
           return SliverToBoxAdapter(
             child: Center(
-              child: Text(
-                state.errorMessage,
+              child: ResponsiveText(
+                text: state.errorMessage,
                 style: const TextStyle(color: Colors.red),
               ),
             ),
@@ -43,10 +44,13 @@ class DishesListView extends StatelessWidget {
     
         if (dishes.isEmpty) {
           return SliverToBoxAdapter(
-            child: const Center(
-              child: Text(
-                'No hay platillos disponibles',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            child: Center(
+              child: ResponsiveText(
+                text: 'No hay platillos disponibles',
+                style: textBlack.copyWith(
+                  fontSize: scaleFont(16, context),
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           );
@@ -112,26 +116,28 @@ class _SlideDish extends StatelessWidget {
                 children: [
                   ResponsiveText(
                     text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    style: textBlack.copyWith(
+                      fontSize: scaleFont(18, context),
+                      fontWeight: FontWeight.w800,
+                    ),
                     maxLines: 1,
-                    maxFontSize: 16,
                   ),
                   ResponsiveText(
                     text: _formatAvailableServings(dish.availableServings),
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
+                    style: textBlack.copyWith(
+                      fontSize: scaleFont(18, context),
                     ),
                     maxLines: 2,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: ResponsiveText(
                           text: 'R:\$${dish.pricePerServing.toStringAsFixed(0)}',
-                          style: TextStyle(
+                          style: textOrangeApp.copyWith(
+                            fontSize: scaleFont(16, context),
                             fontWeight: FontWeight.w800,
-                            color: colorList[0],
                           ),
                           group: priceGroup,
                         ),
@@ -142,12 +148,12 @@ class _SlideDish extends StatelessWidget {
                           color: Colors.grey
                         )),
                         
-                      Expanded(
+                      Flexible(
                         child: ResponsiveText(
                           text: 'M:\$${dish.pricePerHalfServing.toStringAsFixed(0)}',
-                          style: TextStyle(
+                          style: textOrange400.copyWith(
+                            fontSize: scaleFont(16, context),
                             fontWeight: FontWeight.w800,
-                            color: Colors.orange[400],
                           ),
                           group: priceGroup,
                         ),
