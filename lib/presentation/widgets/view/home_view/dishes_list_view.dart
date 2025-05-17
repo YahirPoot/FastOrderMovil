@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../config/index.dart';
 import '../../../../domain/index.dart';
@@ -84,97 +85,113 @@ class _SlideDish extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-      height: 155,
-      child: Card(
-        color: Colors.white,
-        elevation: 6,
-        margin: const EdgeInsets.only(top: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(2, 2, 0, 2),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  dish.imageUrl ?? 'https://via.placeholder.com/100',
-                  width: 155,
-                  height: 155,
-                  fit: BoxFit.cover,
+
+    void goToCreateOrder(BuildContext context, {String? initialOrderQuantity}) {
+      context.push(
+        '/create_order?dishId=${dish.id}&orderQuantity=$initialOrderQuantity'
+      );
+    }
+
+    return GestureDetector(
+      onTap: () => goToCreateOrder(context), // Tap en cualquier parte de contenedor / card
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        height: 155,
+        child: Card(
+          color: Colors.white,
+          elevation: 6,
+          margin: const EdgeInsets.only(top: 4),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(2, 2, 0, 2),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    dish.imageUrl ?? 'https://via.placeholder.com/100',
+                    width: 155,
+                    height: 155,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-        
-            const SizedBox(width: 16),
-        
-            Expanded(
-              child: Column( //Quiero que este column ocupe toda la altura de la card para poder hacer un spaceAround
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ResponsiveText(
-                    text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
-                    style: textBlack.copyWith(
-                      fontSize: scaleFont(18, context),
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 1,
-                  ),
-                  ResponsiveText(
-                    text: _formatAvailableServings(dish.availableServings),
-                    style: textBlack.copyWith(
-                      fontSize: scaleFont(18, context),
-                    ),
-                    maxLines: 2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: ResponsiveText(
-                          text: 'R:\$${dish.pricePerServing.toStringAsFixed(0)}',
-                          style: textOrangeApp.copyWith(
-                            fontSize: scaleFont(16, context),
-                            fontWeight: FontWeight.w800,
-                          ),
-                          group: priceGroup,
-                        ),
+          
+              const SizedBox(width: 16),
+          
+              Expanded(
+                child: Column( //Quiero que este column ocupe toda la altura de la card para poder hacer un spaceAround
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ResponsiveText(
+                      text: '${dish.name[0].toUpperCase()}${dish.name.substring(1)}',
+                      style: textBlack.copyWith(
+                        fontSize: scaleFont(18, context),
+                        fontWeight: FontWeight.w800,
                       ),
-                        
-                      ResponsiveText(text: ' | ' , 
-                        style: TextStyle(
-                          color: Colors.grey
-                        )),
-                        
-                      Flexible(
-                        child: ResponsiveText(
-                          text: 'M:\$${dish.pricePerHalfServing.toStringAsFixed(0)}',
-                          style: textOrange400.copyWith(
-                            fontSize: scaleFont(16, context),
-                            fontWeight: FontWeight.w800,
-                          ),
-                          group: priceGroup,
-                        ),
+                      maxLines: 1,
+                    ),
+                    ResponsiveText(
+                      text: _formatAvailableServings(dish.availableServings),
+                      style: textBlack.copyWith(
+                        fontSize: scaleFont(18, context),
                       ),
-                        
-                    ],
-                  ),
-                ],
+                      maxLines: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () => goToCreateOrder(context, initialOrderQuantity: '1'),
+                            behavior: HitTestBehavior.translucent,
+                            child: ResponsiveText(
+                              text: 'R:\$${dish.pricePerServing.toStringAsFixed(0)}',
+                              style: textOrangeApp.copyWith(
+                                fontSize: scaleFont(16, context),
+                                fontWeight: FontWeight.w800,
+                              ),
+                              group: priceGroup,
+                            ),
+                          ),
+                        ),
+                          
+                        ResponsiveText(text: ' | ' , 
+                          style: TextStyle(
+                            color: Colors.grey
+                          )),
+                          
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () => goToCreateOrder(context, initialOrderQuantity: '0.5'),
+                            behavior: HitTestBehavior.translucent,
+                            child: ResponsiveText(
+                              text: 'M:\$${dish.pricePerHalfServing.toStringAsFixed(0)}',
+                              style: textOrange400.copyWith(
+                                fontSize: scaleFont(16, context),
+                                fontWeight: FontWeight.w800,
+                              ),
+                              group: priceGroup,
+                            ),
+                          ),
+                        ),
+                          
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            
-            IconButton(
-              onPressed: () {
-                // Acción al presionar el ícono
-              },
-              icon: const Icon(
-                Icons.arrow_forward_ios_outlined, // Ícono de carrito de compras
-                color: Colors.grey,
+              
+              IconButton(
+                onPressed: null,
+                icon: const Icon(
+                  Icons.arrow_forward_ios_outlined, // Ícono de carrito de compras
+                  color: Colors.grey,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

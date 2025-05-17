@@ -1,13 +1,14 @@
 import 'package:fast_order/config/themes/index.dart';
 import 'package:flutter/material.dart';
 
-
-
 TextStyle textOrangeApp =
     TextStyle(fontSize: 16, color: colorList[1]);
 
 TextStyle textOrange400 =
     TextStyle(fontSize: 16, color: Colors.orange[400]);
+
+TextStyle textWhite =
+    TextStyle(fontSize: 16, color: Colors.white);
 
 TextStyle titlOrangeF24 =
     TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorList[1]);

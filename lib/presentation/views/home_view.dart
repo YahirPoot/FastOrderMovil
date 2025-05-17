@@ -3,6 +3,7 @@ import 'package:fast_order/presentation/bloc/index.dart';
 import 'package:fast_order/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../utils/index.dart';
 
@@ -21,9 +22,19 @@ class HomeView extends StatelessWidget {
 
             // Este es el AppBar que desaparece al hacer scroll
             SliverAppBar(
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.grey,
+                    size: scaleFont(30, context),
+                  ),
+                  onPressed: () => context.push('/create_order'), // Navega a la pantalla de creación de orden
+                ),
+              ],
               title: ResponsiveText(
                 textScaleFactor: 1.5,
-                text: 'Hi, ${context.read<AuthBloc>().state.user?.fullName}',
+                text: 'Hola, ${context.read<AuthBloc>().state.user?.fullName}',
                 style: textOrangeApp.copyWith(
                   fontSize: scaleFont(16, context),
                   fontWeight: FontWeight.w800,
@@ -34,7 +45,7 @@ class HomeView extends StatelessWidget {
               backgroundColor: Colors.white, // Cambia esto por tu color primario
             ),
               
-            SliverToBoxAdapter(
+            SliverToBoxAdapter( //carousel with welcome box
               child: CarouselWithWelcomeBox(
                 height: size.height * 0.24,
                 carouselWidth: size.width * 0.5,
@@ -42,7 +53,7 @@ class HomeView extends StatelessWidget {
               ),
             ),
 
-            SliverToBoxAdapter(
+            SliverToBoxAdapter( // Divider
               child: Divider(
                 height: 5,
                 color: Colors.grey[200],
@@ -52,7 +63,7 @@ class HomeView extends StatelessWidget {
               ),
             ),
 
-            DishesListView(size: size),
+            DishesListView(size: size), // ListView of dishes
 
             
           ],

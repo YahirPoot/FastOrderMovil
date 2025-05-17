@@ -3,6 +3,7 @@ import 'package:fast_order/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:fast_order/presentation/screens/auth/check_auth_status_screen.dart';
 import 'package:fast_order/presentation/screens/auth/login_screen.dart';
 import 'package:fast_order/presentation/screens/home/home_screen.dart';
+import 'package:fast_order/presentation/screens/order/create_order_screen.dart';
 import 'package:fast_order/presentation/views/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,17 @@ GoRouter createAppRouter(BuildContext context) {
       GoRoute(
         path: '/loading',
         builder: (context, state) => const CheckAuthStatusScreen(), // Pantalla de carga
+      ),
+      GoRoute(
+        path: '/create_order',
+        builder: (context, state) {
+          final String? dishId = state.uri.queryParameters['dishId'];
+          final String? orderQuantity = state.uri.queryParameters['orderQuantity'];
+          return CreateOrderScreen(
+            dishId: dishId,
+            initialOrderQuantity: orderQuantity,
+          );
+        }, // Pantalla de creación de orden
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, child) {
